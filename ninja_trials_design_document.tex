@@ -1,0 +1,1743 @@
+%% LyX 2.0.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[spanish]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{luainputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\pagestyle{empty}
+\usepackage{color}
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>}}
+
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 0},backref=false,colorlinks=false]
+ {hyperref}
+
+\makeatletter
+\@ifundefined{date}{}{\date{}}
+\makeatother
+
+\begin{document}
+
+\title{NINJA TRIALS - DESIGN DOCUMENT }
+
+\maketitle
+\begin{center}
+\textbf{\textcolor{red}{(1ª Iteración)}}
+\par\end{center}
+
+\tableofcontents{}
+
+\pagebreak{}
+
+
+\section{Introducción }
+
+Ninja Trials es un juego para Android al estilo de la vieja escuela,
+con ambientación de temática ninja y humor desenfadado, desarrollado
+específicamente para Ouya, utilizando el motor AndEngine.
+
+El juego consiste en varias pruebas simples de habilidad con el mando
+(pulsar botones lo más rápido posible, pulsar en el momento exacto,
+apuntar con precisión, pulsación rítmica, etcétera). 
+
+Comenzamos a hacer este juego para poner a prueba las capacidades
+de AndEngine y para rendir homenaje a grandes juegos de antaño como
+Track \& Field, Combat School/Boot Camp, y otros.
+
+Desarrollaremos el juego de forma iterativa y creciente. En las primeras
+iteraciones las funcionalidades serán muy limitadas, por lo que hasta
+no llegar a un nivel de calidad adecuado no se distribuirá comercialmente.
+
+
+\section{Características }
+
+
+\subsection{Características del juego }
+
+Algunas de las características mencionadas son imprescincibles, otras
+sólo estarán disponibles en futuras iteraciones. Se marcan con un
+asterisco ({*}) las que no necesitan estar presentes en esta iteración.
+
+Selección entre dos personajes, Ryoko (chica ninja) y Sho (chico ninja)
+Juego cooperativo simultáneo (en la misma consola, y quizás también
+en red) {*} Varios niveles de dificultad (fácil, normal y difícil)
+Diferentes endings / finales de juego (en función del personaje y
+la dificultad) {*} Controles sencillos (habilidades simples, como
+velocidad o precisión de pulsación) No se pueden guardar partidas
+(las partidas son cortas e intensas así que no hace falta). Se guardan
+las puntuaciones y los logros (en la consola) Se guardan las puntuaciones
+y los logros (en la nube) {*} Posibilidad de compartir las puntuaciones
+y logros no sólo en el servidor dedicado a Ninja Trials, sino también
+en Facebook y similares (incluidas redes sociales dedicadas a juegos)
+{*} Programado para Ouya (sin descartar posibles adaptaciones futuras
+para cualquier otro sistema Android) usando AndEngine como base Multilingüe
+(se detectará el idioma predeterminado del dispositivo, pero también
+se deberá permitir elegir luego el idioma en las opciones) Doblado
+al japonés (voces de los personajes mientras efectúan las pruebas,
+y quizás unos pocos diálogos) {*}
+
+
+\subsection{Características del motor AndEngine}
+
+AndEngine es un motor de código abierto específico para crear videojuegos
+en Android. Su licencia es Apache 2.0, por lo que, mientras demos
+el debido crédito, podemos hacer lo que deseemos con nuestro juego.
+Más información aquí: http://www.andengine.org/forums/
+
+
+\subsection{Características de la consola }
+
+OUYA - Procesador Nvidia Tegra 3 T33 - 1GB de RAM - 8GB de almacenamiento
+interno (expandible mediante disco duro externo vía USB) - Conexión
+HDMI1.4a (acepta resolución 1920x1080 ó 1280x720) - WiFi 802.11 b/g/n
+- Puerto Ethernet - Bluetooth LE 4.0 - Un Micro-USB - Un USB 2.0 (ampliable
+mediante un Hub de USBs) - Sistema operativo Android 4.1 Jelly Bean
+(API Level 16) - Mando inalámbrico con controles estándar y un touchpad
+(también acepta otros mandos, como el de la XBox360 con cable) - Capacidad
+para conectar hasta cuatro mandos.
+
+Más información aquí: https://devs.ouya.tv/developers/docs
+
+
+\subsection{Controles del juego}
+
+El mando de Ouya tiene: - Cuatro botones digitales (O, U, Y, y A).
+- Un pad direccional digital de cuatro direcciones (D-Pad). - Dos
+joysticks analógicos (LS, RS). - Dos botones digitales que se activan
+cuando los joysticks son presionados hacia abajo (L3, R3). - Dos gatillos
+digitales (L1, R1). - Dos gatillos analógicos (L2, R2). - Un touchpad,
+configurado para comportarse como una entrada de ratón (touchpad).
+- Un botón de Home (Home).
+
+Más información aquí: https://devs.ouya.tv/developers/docs/controllers
+
+Aclaración: Mientras el equipo no disponga de una OUYA para hacer
+las pruebas, mantendremos la opción de manejar el juego con cualquier
+teléfono móvil, pero es importante conocer la disposición de botones
+en el mando y cómo se controlará el juego en su versión final.
+
+Controles que se utilizarán en el juego:
+
+Mando OUYA Adaptación smartphone Zona de Menús Aceptar Botones “O”,
+“U”, “Y”, o el botón “Home” Tocar la opción determinada
+
+Cancelar Botón “A” Botón “Back”
+
+Salir del juego Pulsar 2 veces botón “Home” Pulsar 2 veces botón “Home”
+
+Desplazamiento sobre las opciones “D-Pad”, joysticks analógicos (LS,
+RS) Tocar la opción determinada Intros cinemá-ticas (openings) Omitir
+cinemática Botón “Home” o cualquiera de los cuatro botones digitales
+(O, U, Y, y A) Tocar la pantalla
+
+Finales cinemá-ticas (endings) Mostrar opción de omitir cinemática
+Botón “A” Botón “Back”
+
+Confirmar omisión Botón “B” Tocar la pantalla
+
+Cancelar omisión Botón “A” Botón “Back” Zona de pruebas (trials) Arriba/abajo/
+derecha/izquierda “D-Pad” “Volume+/Volume-” (sólo se pueden emular
+2)
+
+Botón de acción 1 Configurable. Por defecto en los botones “O” y “U”
+Tocar la pantalla (mitad izquierda)
+
+Botón de acción 2 Configurable. Por defecto en los botones “Y” y “A”
+Tocar la pantalla (mitad derecha)
+
+Botón de acción (cualquiera de los 2 botones de acción) Configurable.
+Por defecto en los botones “O”, “U”, “Y” y “A” Tocar la pantalla (cualquier
+parte)
+
+Pausa Botón “Home” Botón “Home”
+
+Cambios en la configuración de los botones: En posteriores iteraciones
+se podrá alterar la configuración de botones, habiendo tanto configuraciones
+predeterminadas como personalizadas. 
+
+
+\section{Pantallas }
+
+Desglosaremos el juego por pantallas, que es la forma más sencilla
+e intuitiva (se mostrarán imágenes con pantallas de ejemplo en https://github.com/jjhaggar/ninja-trials/tree/master/docs/example\_screens
+). En la primera iteración habrá 18 tipos de pantallas (si la de \textquotedbl{}Loading\textquotedbl{}
+no es necesaria sólo serían 17). ¡Aviso! Se citarán los gráficos músicas
+y sonidos escribiendo el nombre del recurso en color azul4.
+
+
+\subsection{Splash Screen (pantalla de inicio)}
+
+Primera pantalla visible al arrancar la aplicación. Los logos de MadGear
+(splash\_logo\_madgear.svg) y Ouya (splash\_logo\_ouya\_color.svg,
+aunque este último quizás no) aparecen y desaparecen con un fundido
+y modificación del tamaño (y quizás de la posición), mientras están
+presentes se escucha el sonido correspondiente a cada uno (sonido
+de engranajes con MadGear y la palabra \textquotedbl{}Ouya\textquotedbl{}
+con el logo del mismo nombre).
+
+Mientras se muestran los logos (por primera vez) se aprovecha para
+cargar todos los recursos/assets del juego y para hacer las conexiones
+necesarias vía Internet (aún hay que comprobar si esto es viable,
+pues son muchos recursos los que hay que cargar).
+
+La primera vez que se muestran los logotipos, estos no se pueden omitir,
+pero las siguientes veces si pulsas un botón pasaríamos al \textquotedbl{}menú
+principal\textquotedbl{} (al ya tener los recursos cargados no sería
+un problema). 
+
+
+\subsection{Intro 1 Screen (pantalla de introducción 1)}
+
+De forma sincronizada con la música se mostrará: La silueta de los
+ninjas (intro1\_shapes.png) sobre un fondo degradado (intro1\_gradient.jpg).
+La palabra \textquotedbl{}NINJA\textquotedbl{} en fuente Impact con
+un efecto de blending (intro1\_wordmask\_ninja.svg) con la cara de
+Sho (intro1\_sho.png). Movimiento hacia la izquierda. Un par de escenas
+de las pruebas intercaladas mientras se ve la palabra \textquotedbl{}NINJA\textquotedbl{}
+mencionada en el punto anterior. En principio “correr” y “corte” (se
+usarán los assets correspondientes a las pruebas, pero como muestra
+se usarán dos imágenes fijas, intro1\_trial\_run.jpg y intro1\_trial\_cut.jpg).
+La palabra \textquotedbl{}TRIALS\textquotedbl{} en fuente Impact con
+un efecto de blending (intro1\_wordmask\_trials.svg) con la cara de
+Ryoko (intro1\_ryoko.png). Movimiento hacia la izquierda. Un par de
+escenas de las pruebas intercaladas mientras se ve la palabra \textquotedbl{}TRIALS\textquotedbl{}
+mencionada en el punto anterior. En principio “salto” y “shurikens”
+(se usarán los assets correspondientes a las pruebas, pero como muestra
+se usarán dos imágenes fijas, intro1\_trial\_jump.jpg y intro1\_trial\_throw.jpg).
+Aparición del logo \textquotedbl{}NINJA TRIALS\textquotedbl{} (intro1\_logo.png).
+Aún por definir tanto el logo como el tipo de aparición (lo ideal
+es que sea una aparición \textquotedbl{}especial\textquotedbl{} que
+sólo pueda hacerse con ese logo), dicha aparición terminará con la
+culminación de la música y un efecto especial de sonido que destaque
+y que tiene que estar relacionado con algún elemento del logo, el
+sonido de un shuriken al lanzarse y clavarse, por ejemplo (el efecto
+que quiero es similar al que tiene la \textquotedbl{}X\textquotedbl{}
+al aparecer en la intro de \textquotedbl{}Megaman X\textquotedbl{}
+http://youtu.be/J-OKIlcLDgk?t=1m56s ).
+
+Vídeo de ejemplo: Existe un vídeo en estado \textquotedbl{}beta\textquotedbl{}
+de la pantalla de introducción, subido en GitHub en el subdirectorio
+docs/example\_screen/
+
+https://github.com/jjhaggar/ninja-trials/blob/master/docs/example\_screens/screen\_intro1\_beta.avi
+
+¡Aviso! La música y los gráficos del vídeo son antiguos y sólo sirven
+de guía.
+
+Formato animaciones de las escenas de pruebas: Aún no está claro si
+las escenas de las cuatro pruebas se harán en “formato vídeo” (utilizando
+una secuencia de imágenes pregenerada) o se harán animando los elementos
+necesarios de cada prueba (fondos, elementos y sprites). En cualquier
+caso hasta no tener terminadas las cuatro pruebas se usarán las 4
+imágenes fijas mencionadas.
+
+Si se pulsa un botón (Home, O, U,Y, A) la presentación se interrumpirá
+y aparecerá el menú principal. Si no se pulsa ningún botón, al acabar
+la presentación aparecerá la pantalla de menú principal. 
+
+
+\subsection{Main Menu Screen (pantalla de menú principal)}
+
+Se mostrará el logotipo \textquotedbl{}NINJA TRIALS\textquotedbl{}
+(menu\_main\_title.png), sobre un fondo \textquotedbl{}baldosado\textquotedbl{}
+con patrones de motivos ninjas o japoneses (elegido entre menu\_main\_pattern\_1.png,
+menu\_main\_pattern\_2.png y menu\_main\_pattern\_3.png), junto con
+tres botones (los botones son textos, no imágenes). El texto de los
+botones deberá ser multilingüe (cambiar según idioma de la consola).
+El texto que aparezca en el juego como mínimo estará en español e
+inglés (en posteriores iteraciones se harán más traducciones).
+
+Cada botón tendrá 3 estados (normal, seleccionado y activado), en
+ningún momento habrá a la vez más de uno seleccionado (ni activado).
+Para la 1ª iteración los estados serán sencillos (en siguientes iteraciones
+se intentará dotar de transiciones entre estados y dar más vistosidad).
+
+Estados de los botones Normal Letras a tamaño normal y de color blanco
+(o negras con borde blanco). Seleccionado Letras a tamaño más grande
+y de color amarillo (o negras con borde amarillo). Activado Las letras
+aumentan paulatinamente de tamaño y el color de las mismas (o de su
+borde) parpadea entre rojo y amarillo.
+
+Se podrá cambiar la selección de un botón a otro pulsando izquierda/derecha
+en el d-pad de la Ouya. Al cambiar la selección de un botón a otro
+se escuchará un sonido (menu\_focus.ogg) y el botón pasará a estado
+seleccionado.
+
+Se podrán activar los botones pulsando alguno de los siguiente botones
+del mando de la Ouya: “HOME”, “Y”, “O” y “U” (el botón “A” este está
+reservado para volver atrás en los menús). Al activar cualquiera de
+ellos se escuchara otro sonido (menu\_activate.ogg) y el botón pasará
+a estado activado, pasando tras un par de segundos a la pantalla deseada.
+
+Los dos sonidos ( menu\_focus.ogg y menu\_activate.ogg) serán comunes
+al resto de menús.
+
+Activar el Botón Game Start (iniciar juego) lleva a la pantalla de
+selección de personaje. Activar el Botón Options (opciones) lleva
+a la pantalla de opciones. Activar el Botón Achievements (logros)
+lleva a la pantalla de logros. Si no se mueve el foco ni se pulsa
+ningún botón durante 10 segundos se pasa se pasa al \textquotedbl{}Character
+Intro Screen\textquotedbl{} (\textquotedbl{}pantalla de presentación
+de personajes\textquotedbl{}). Si se pulsa el botón “A” de la Ouya
+se vuelve a la pantalla de inicio (Splash Screen). Si se acciona el
+d-pad o se pulsa cualquier botón de la Ouya que no sean “HOME”, “O”,
+“U”, “Y” o “A”, se reinicia la cuenta atrás de 10 segundos que nos
+llevaría a la pantalla de logros. 
+
+
+\subsection{Character Intro Screen (pantalla de presentación de personajes) }
+
+Típica pantalla de descripción de los personajes protagonistas, al
+estilo \textquotedbl{}Final Fight\textquotedbl{}. A cada vuelta (SplashScreen->Intro1Screen->MenuScreen->CharacterIntroScreen->RecordScreen->Splash...)
+se muestra la información de cada personaje sobre su fondo respectivo.
+Primero se hace con Ryoko (character\_profile\_ryoko.png y character\_profile\_background\_1.png)
+y luego se hace con Sho (character\_profile\_sho.png y character\_profile\_background\_2.png),
+y se siguen alternando.
+
+Si se pulsa algún botón (Home, O, U,Y, A) se pasa a la \textquotedbl{}pantalla
+de menú principal\textquotedbl{}. Si no se pulsa ningún botón, al
+cabo de 5 segundos se pasa a la \textquotedbl{}pantalla de récords\textquotedbl{}
+(\textquotedbl{}Record Screen\textquotedbl{}).
+
+
+\subsection{Record Screen (pantalla de récords)}
+
+Esta pantalla utilizará los datos que previamente (durante la Splash
+Screen) se han cargado (si se ha conseguido acceder a Internet) sobre
+el listado de récords de los mejores jugadores: listado diario, listado
+semanal y listado global (en la 1ª iteración los resultados serán
+sólo locales, no se hará ninguna conexión a Internet). Los assets
+empleados serán results\_records\_winner\_faces.png (caras de los
+personajes) menu\_main\_pattern\_1.png, menu\_main\_pattern\_2.png
+y menu\_main\_pattern\_3.png (fondo)
+
+Si no se consigue acceder a Internet o al servidor de los récords,
+los datos se sustituirán por un listado de récords almacenado localmente
+la última vez que se hizo conexión (aún si es la primera vez que se
+juega, habría récords por defecto) y se avisaría al jugador con el
+mensaje \textquotedbl{}Sin conexión. Récords no actualizados\textquotedbl{}. 
+
+¡Aviso! En esta iteración el guardado de datos mediante Internet no
+está contemplado.
+
+Si se pulsa algún botón (Home, O, U,Y, A) se pasa a la \textquotedbl{}pantalla
+de menú principal\textquotedbl{}. Si no se pulsa ningún botón, al
+cabo de 5 segundos se pasa al \textquotedbl{}Splash Screen\textquotedbl{}
+(se reinicia el bucle). 
+
+
+\subsection{Option Screen (pantalla de opciones)}
+
+En este menú (en esta iteración) se podrá:
+
+Cambiar el volumen de músicas Cambiar el volumen de efectos de sonido.
+Escuchar las músicas. Escuchar los efectos de sonido y voces (soundtest
+clásico). Visualizar los controles del juego.
+
+Más adelante se introducirán más opciones.
+
+Los recursos empleados son los siguientes: menu\_options\_volume.png
+menu\_options\_controller\_marks.png menu\_options\_controller\_ouya.png
+menu\_focus.ogg y menu\_activate.ogg
+
+Al pulsar “HOME” o “A” volveríamos a la pantalla de menú principal.
+
+
+\subsection{Achievements Screen (pantalla de logros)}
+
+Habrá un total de 35 logros (aunque en la 1ª iteración no será necesario
+que funcionan todos ellos). 
+
+La pantalla se dividirá en tres zonas diferenciadas: -Zona de datos
+del jugador (arriba a la derecha). -Zona de descripción de logros
+(abajo a la derecha). -Zona de iconos (izquierda-centro, ocupando
+la mayor parte de la pantalla).
+
+En la zona de datos del jugador se muestran el nombre del jugador
+actual y los logros (superados/totales).
+
+En la zona de descripción de logros (menu\_achievements\_container\_description.png
+) se muestra un icono grande relacionado con el logro (menu\_achievement\_icons\_big.png),
+el nombre y la descripción del mismo. En algunos casos también pueden
+mostrarse un marcador de progreso, un sello de “superado” (menu\_achievement\_success\_stamp.png)
+y una frase de “prueba superada”.
+
+En la zona de iconos (menu\_achievements\_container\_icons.png) se
+mostrará una cuadrícula de 7 filas por 5 columnas con iconos (menu\_achievement\_icons\_small.png)
+cuyas imágenes representarán los logros (o mostrarán una interrogación
+en el caso de que sean secretos). Estos iconos tendrán dos estados,
+normal y seleccionado. Se podrá navegar sobre esta cuadrícula mediante
+el cursor (D-Pad ), pulsando arriba abajo izquierda y derecha (al
+desplazarnos se oirá menu\_focus.ogg). Si llegamos a la derecha del
+todo y pulsamos una vez más derecha, pasaríamos al primero de la izquierda
+de esa misma fila, y sucedería lo mismo en el resto de casos (izquierda
+, arriba y abajo). Al pulsar sobre un icono se actualiza la zona de
+descripción (y se escuchará menu\_activate.ogg).
+
+Tipo ¿Supe-rado? Imagen Descripción Normal No
+
+Muestra un icono descriptivo de la prueba. El color gris del icono
+y una imagen de un candado dan a entender que aún no se ha superado.
+Si se pulsa sobre él, en la sección de descripción de logros se muestra
+el icono detallado, el nombre y la descripción del logro (y en caso
+de ser considerado necesario, el progreso actual en ese logro).
+
+Sí
+
+Muestra un icono descriptivo de la prueba. Ahora el icono tiene color
+y no hay candado. Si se pulsa sobre él, en la sección de descripción
+de logros se muestra el icono detallado y la descripción del logro.
+Se muestran también el sello “superado” (menu\_achievement\_success\_stamp.png)
+y una frase de éxito sobre el logro. Secreto No
+
+Muestra un icono de una interrogación. El color gris del icono y una
+imagen de un candado dan a entender que aún no se ha superado. Si
+se pulsa sobre él, en la sección de descripción de logros se muestra
+un icono de una interrogación y donde deberían estar el nombre y la
+descripción del logro respectivamente se muestra “????” y se avisa
+de que no hay descripción disponible. Algunos de los logros secretos
+podrán mostrar pistas, ya sea en el título o en la descripción.
+
+Sí
+
+Muestra un icono descriptivo de la prueba. Además el icono tiene color
+y no hay candado. Si se pulsa sobre él, en la sección de descripción
+de logros se muestra el icono detallado y la descripción del logro.
+Se muestran también el sello de “superado” y una frase de éxito relacionada
+con el logro.
+
+¡Aviso! Para hacer los placeholders de los iconos, en lugar de hacer
+un dibujo descriptivo he añadido números a cada uno de los mismos,
+esto se corregirá a medida que se vayan añadiendo los logros.
+
+Al pulsar “HOME” o “A” volveríamos a la pantalla de menú principal.
+
+
+\subsection{pantalla de selección de personaje }
+
+La selección de personaje y selección de dificultad se hacen en la
+misma pantalla, usando el mismo fondo (menu\_select\_sky.png, menu\_select\_clouds.png,
+menu\_select\_moon.png, menu\_select\_roof.png). Primero se elige
+personaje (menu\_select\_ch\_ryoko.png, menu\_select\_ch\_sho.png)
+y luego se elige dificultad (menu\_select\_difficulty.png).
+
+Tanto las opciones de elegir personaje (gráficos) como las opciones
+de elegir dificultad (texto) tienen tres estados: normal, seleccionado
+y activado. Al cambiar de un estado a otro se escuchan los sonidos
+respectivos (o bien el sonido de cambio de selección menu\_focus.ogg
+o bien el de activación menu\_activate.ogg).
+
+Para la 1ª iteración los estados serán sencillos (en siguientes iteraciones
+se intentará dotar de transiciones entre estados y dar más vistosidad,
+con animaciones por ejemplo).
+
+Selección personaje Selección dificultad Normal Sprite normal. Letras
+a tamaño normal y de color blanco (o negras con borde blanco). Seleccionado
+Sprite amarillo, y sobre él el sprite normal (el sprite amarillo es
+ligeramente más grande, así que parecerá que tiene un borde amarillo)
+Letras a tamaño más grande y de color amarillo (o negras con borde
+amarillo). Activado Sprite amarillo, sobre él el sprite normal, y
+sobre ambos de nuevo el sprite amarillo, pero con el valor de transparencia
+al 50\% Las letras aumentan paulatinamente de tamaño y el color de
+las mismas (o de su borde) parpadea entre rojo y amarillo.
+
+Primero se nos permite elegir entre los personajes (Ryoko y Sho).
+Con derecha e izquierda cambiamos entre la selección de uno y otro.
+Al pulsar un botón de la Ouya (de entre los siguientes: “HOME”, “O”,
+“U” e “Y”) elegimos el personaje que esté seleccionado. Tras elegir
+personaje aparecen las opciones de dificultad (Fácil, normal y difícil).
+Con arriba y abajo cambiamos entre una y otra. Al pulsar un botón
+de la Ouya (de entre los siguientes: “HOME”, “O”, “U” e “Y”) elegimos
+la dificultad que esté seleccionada. Tras elegir dificultad pasaremos
+a la pantalla de intro 2. Si se pulsa el botón “A” de la Ouya mientras
+se está en la selección de dificultad se vuelve a la selección de
+personaje. Si se pulsa mientras se está en la selección de personaje,
+se pasa al menú principal.
+
+
+\subsection{Intro 2 Screen (pantalla de introducción 2)}
+
+Se ve al maestro del clan diciéndoles que deben superar las pruebas
+para ser considerados ninjas de pleno derecho. El storyboard y los
+gráficos están aún por determinar.
+
+Si se pulsa algún botón (Home, O, U,Y, A) se corta la intro y se pasa
+a la pantalla de mapa. Si no se pulsa ningún botón, al acabar la introducción
+se pasa a la pantalla de mapa.
+
+
+\subsection{Map Screen (pantalla de mapa)}
+
+En esta pantalla se muestra el texto “Story Mode (Map)” (zona superior
+derecha).
+
+También se muestra un mapa (menu\_map\_background.png) con la situación
+de las pruebas (puntos marcados menu\_map\_background\_marks.png)
+y la posición del ninja (pequeño sprite animado menu\_map\_ch\_ryoko.png,
+menu\_map\_ch\_sho.png), que se movería desde la última localización
+hasta la de la nueva prueba (excepto si se ha continuado, en cuyo
+caso el ninja se quedaría en el mismo sitio). Este mapa estaría como
+capa de fondo, ocupando todo el espacio.
+
+Por último, también se muestra un pergamino (menu\_map\_scroll.png)
+que se desenrolla (en diferentes posiciones, según la prueba, para
+no tapar la localización actual del ninja). Tras desenrollarse, aparece
+sobre el pergamino una imagen de la prueba (menu\_map\_drawings.png)
+que debe hacerse en este momento (en esta iteración el jugador no
+decide nada en el mapa, deberá hacer las pruebas por orden).
+
+Imágen Descripción
+
+El personaje constará de dos animaciones en el mapa:
+
+1) Standing: El personaje está quieto, la animación es su respiración
+(usar por ejemplo los dos frames superiores). 
+
+2) Walking: El personaje camina, lo hace mirando sólo hacia abajo,
+independientemente de hacia donde se dirija (usar por ejemplo los
+dos frames inferiores).
+
+Los estados de las marcas del mapa son, por orden:
+
+1) Aún no disponible.
+
+2) Seleccionada (estamos sobre esta marca).
+
+3) Activada (estaba seleccionada y hemos pulsado el botón).
+
+4) Completada.
+
+¡Aviso! El número de fotogramas de las animaciones de los placeholders
+de los personajes podría cambiar (y no sólo en esta pantalla, también
+en el resto), aunque siempre se intentará que se asemejen lo más posible
+a los spritesheets finales. El número de animaciones de los placeholders
+en cambio sí que deberían coincidir con los de los spritesheets finales
+(salvo en el caso de algún extraño imprevisto).
+
+Si no se pulsa ningún botón, al pasar 20 segundos se pasa a la pantalla
+de Cómo jugar. Si se pulsa algún botón (Home, O, U,Y, A) se pasa directamente
+a la pantalla de Cómo jugar.
+
+
+\subsection{How to Play Screen (pantalla de cómo jugar)}
+
+Se mostrará una escena con fondo neutro (probablemente negro) y tres
+zonas diferenciadas: - Zona de imagen de gameplay (izquierda de la
+pantalla) - Zona de controles (derecha de la pantalla) - Zona de descripción
+de la prueba (parte inferior de la pantalla)
+
+En la zona de imagen de gameplay se mostrarán a tamaño reducido (50\%
+aproximadamente) los elementos necesarios para la prueba que se desea
+explicar (utilizando los assets propios de la prueba) dichos elementos
+son el personaje, hud y elementos relacionados, el fondo sólo se mostrará
+si es absolutamente necesario.
+
+En la zona de controles se mostrarán los controles que se utilizarán
+durante la prueba, y marcas (how\_to\_play\_arrow.png) que indicarán
+cuando utilizarlos. Los controles que se podrán mostrar son el D-pad
+(how\_to\_play\_digital\_pad.png) y los botones de acción (how\_to\_play\_button.png).
+
+En la zona de descripción de la prueba se mostrará un texto con una
+breve explicación de lo que debe hacer el jugador en la prueba concreta.
+El texto puede cambiar a medida que se explican las diferentes acciones
+que puedan hacerse en dicha prueba. También se explicará la utilidad
+de los indicadores HUD.
+
+Si no se pulsa ningún botón al pasar 5 segundos se pasa a la pantalla
+de juego. Si se pulsa algún botón (Home, O, U,Y, A) se pasa directamente
+a la pantalla de juego.
+
+
+\subsection{Gameplay Screen (pantalla de juego)}
+
+Hay varios tipos de juego (trials). Para la primera iteración se planea
+hacer cuatro diferentes, \textquotedbl{}Carrera\textquotedbl{}, \textquotedbl{}Corte\textquotedbl{},
+\textquotedbl{}Salto\textquotedbl{} y \textquotedbl{}Lanzamiento de
+shurikens\textquotedbl{}. 
+
+¡Aviso! Aunque en algunas imágenes se muestre que hay dos jugadores
+en pantalla, no se requieren dos jugadores simultáneos para esta iteración.
+
+Resumen de puntuaciones en las pruebas que se incluirán en esta iteración:
+Prueba Común a todas las pruebas Específico de cada prueba.
+
+Superar prueba (10.000 puntos) Great (5.000 puntos) Varios (puntos
+variables, se calcularán tras probar los “trials”) Perfect (puntuación
+x2) Correr Recorrer distancia antes de que se agote el tiempo total
+Superar prueba con suficiente tiempo extra Máxima velocidad alcanzada
+
+Cantidad de segundos acumulados en “velocidad máxima” Toda la prueba
+a “velocidad máxima”
+
+No existe una velocidad máxima tope. Existe una velocidad máxima que
+define si estás a “velocidad máxima” (sirve para el hi-speed combo).
+Existe también la velocidad máxima real alcanzada (pulsaciones por
+unidad de tiempo), que sólo depende de lo rápido que pulse el jugador.
+Max.vel.alcanzada --> Seg.acum.vel.max. --> Corte Cortar dentro del
+umbral de precisión antes de agotar el tiempo Superar prueba con una
+precisión mínima Precisión conseguida Tiempo sobrante Precisión perfecta
+
+Precisión conseguida --> Tiempo sobrante --> Salto Llegar a la altura
+requerida antes de agotar el tiempo Superar prueba con suficiente
+tiempo extra Cantidad de saltos perfectos Tiempo sobrante Todos los
+saltos perfectos
+
+Saltos perfectos --> Tiempo sobrante --> Shurikens Eliminar el total
+de objetivos antes de recibir un número de ataques Superar prueba
+con una precisión mínima Precisión conseguida Tiempo sobrante acumulativo
+de eliminación de objetivos Precisión perfecta
+
+Precisión conseguida --> Tiempo sobrante --> 
+
+Algunas pruebas que se podrían introducir en posteriores iteraciones
+son: Prueba Descripción Meditación en la cascada Pulsar direcciones
+y botones de acción según se indique en pantalla para esquivar peces,
+troncos y otros objetos que arrastra la corriente (de forma similar
+a los juegos musicales/bemani, como StepMania) Carrera de saltos Pulsar
+rápido el botón de acción 1 para correr y cada vez que haya que saltar
+pulsar el botón de acción 2 Carrera de obstáculos Pulsar rápido el
+botón de acción y cada vez que haya que esquivar un obstáculo diferente
+pulsar la direccion del D-Pad correspondiente Lanzamiento de ¿lanza?
+Pulsar rápido botón de acción 1 para coger carrerilla hasta el borde
+de un barranco, al llegar al borde pulsar el botón de acción 2 y dejarlo
+pulsado mientras se consigue el ángulo adecuado, soltar en el momento
+justo. Tiro con arco (distancia) Mantener pulsado el botón de acción
+hasta cargar el arco (sin pasarse) y luego pulsar el botón en el momento
+justo para ajustar el ángulo. Tiro con arco (precisión) Pulsar el
+botón de acción (cualquiera) e intentar apuntar a la diana (contrarrestando
+el peso del arco y el cambio del viento) y soltar el botón en el momento
+que el punto de mira está en el centro de la diana (¿como podríamos
+hacer esto? los arcos no tienen punto de mira) Lanzamiento al aire
+y corte de objetos (troncos) antes de que caigan Pulsar el botón en
+el momento justo (similar al corte de velas, pero en este caso la
+barra se va moviendo cada vez más rápido y cuanto más cerca del final
+se pulse el botón, más puntos se consiguen. Si se falla o se pasa
+el tiempo, te cae alguno de los pequeños troncos en la cabeza (o el
+adversario gana el duelo). Duelo samurai con espadas de bambú
+
+Carrera a nado Pulsar rápida y alternadamente el botón de acción 1
+y el botón de acción 2 (o izquierda y derecha en el D-Pad)
+
+A continuación se definirán cada una de las pruebas (trials) del siguiente
+modo: Una breve descripción de la prueba. Una tabla con la cabecera
+en color salmón que explicará los marcadores (HUD). Se mencionarán
+los recursos (assets) del HUD. Una tabla con la cabecera en color
+azul cielo que explicará los controles. Una tabla con la cabecera
+en color gris azulado que explicará cómo se puntuará en la prueba.
+Una tabla con la cabecera en color cyan 10 que explicará qué cambiará
+al variar la dificultad. Una tabla con la cabecera en color amarillo
+verdoso 2 que describirá con más detalle el desarrollo de la prueba.
+Aquí se mencionarán los recursos (assets) del personaje, del fondo
+y de los objetos de la prueba. Una tabla en color amarillo 10 que
+explicará cómo se gana o se pierde en la prueba. Una tabla con la
+cabecera en color naranja 1 que mostrará y explicará brevemente la
+utilización de los assets (música, sonido y gráficos) empleados en
+la fase
+
+Si en cualquier prueba, antes de su conclusión se pulsa el \textquotedbl{}Start\textquotedbl{}
+se pasará a la \textquotedbl{}pantalla de pausa\textquotedbl{}.
+
+
+\subsubsection{Run Trial (prueba de carrera)}
+
+Esta prueba consiste en pulsar rápidamente el botón de acción para
+que aumente la energía del personaje, y que gracias a ella el personaje
+recorra una distancia establecida en un límite de tiempo establecido.
+
+Algo similar a la fase de los 100m lisos de Track \& Field (© Konami):
+http://youtu.be/RLeNExXflkc?t=20s
+
+Marcadores Descripción Cuenta atrás Al inicio se mostrará una cuenta
+atrás (Ready? 3, 2, 1, Go!). El jugador puede pulsar durante la misma,
+eso hará que su energía aumente y pueda salir disparado al dar la
+señal de salida. Cronómetro Situado en la esquina superior derecha,
+empezará a correr tras la salida de la cuenta atrás. Barra de energía
+La barra (power\_bar\_push.png) muestra la energía actual del personaje
+entre 0 y 100 (hay un pequeño porcentaje de energía extra que no se
+mostraría en la barra). Cuanto más llena esté, más correrá el personaje.
+Cara del personaje La cara (ch\_head\_run.png) mostrará la energía
+actual del personaje (aunque de forma menos exacta) mostrando un fotograma
+u otro (1=quieto, 2=corriendo y 3=corriendo rápido). Localizador Barra
+mostrada en la parte superior (run\_line\_bar.png). Indica la posición
+actual del jugador en el recorrido mediante una marca (run\_line\_mark.png).
+Combo de máxima velocidad Si el jugador mantiene una energía mayor
+a cierto porcentaje (alrededor del 90\%) a cada instante que pase
+conseguirá puntos extra y se mostrará en pantalla un texto que le
+informe del número de segundos (con 2 decimales) que lleva corriendo
+a máxima velocidad
+
+Controles: Sólo hay que pulsar un botón lo más rápido posible. - Cuanto
+más rápido se pulse el botón de acción más se aumentará la energía
+(reacciona a cualquier botón de acción, pero hasta que no se levante
+la pulsación del botón pulsado no se registrará la siguiente pulsación
+de otro botón, para evitar el \textquotedbl{}truco\textquotedbl{}
+de pulsar todos los botones del mando a la vez). - La energía se reflejará
+en la animación del personaje, la barra de energía y la cara del personaje
+en el HUD. - Al pasar el tiempo se irá decrementando la energía, por
+lo que si el jugador deja de pulsar rápido, la barra de energía descenderá.
+
+La puntuación en la prueba la determinarán las siguientes mediciones:
+- Tiempo en recorrer la distancia. - Max Speed Combo. Tanto el máximo
+combo continuado como el total acumulado. - Máxima velocidad alcanzada.
+
+Los niveles de dificultad implicarán diferencias en: - Distancia a
+recorrer. - Tiempo máximo para completar el recorrido. - Decremento
+de energía por unidad de tiempo. 
+
+Descripción detallada Prepa-ración Se muestra el escenario de correr
+(run\_background\_trees\_front.png, run\_background\_floor.png, run\_background\_trees\_back.png
+todos ellos moviéndose con efecto parallax horizontal), al árbitro
+preparado para dar la salida (run\_obj\_judge.png) y al personaje
+preparándose para iniciar la carrera (run\_ch\_ryoko.png y run\_ch\_sho.png). 
+
+El HUD muestra en la esquina inferior izquierda la cara del personaje
+(hud\_head\_run.png) y la barra de energía (hud\_power\_indicator.png),
+y en la superior derecha el cronómetro (detenido). En la zona superior
+de la pantalla se muestra la barra del localizador (run\_line\_bar.png)
+con la marca (run\_line\_mark.png) a la izquierda del todo.
+
+Se muestra en el centro de la pantalla un aviso de preparación/cuenta
+atrás (Ready? 3, 2, 1, Go!). El jugador puede pulsar el botón de acción
+durante la misma, eso hará que su energía aumente y de ese modo pueda
+salir disparado (desprendiendo una polvareda run\_dust\_start.png)
+al dar la señal de salida (durante la preparación la energía no disminuye
+con el paso del tiempo). Juego Tras el inicio del juego se pone en
+marcha el cronómetro (realmente el jugador ya debería haber empezado
+a pulsar antes). La cara del personaje en el HUD cambia según el valor
+de energía en ese momento. 
+
+Dependiendo de lo rápido que se esté pulsando, se mostrará una animación
+u otra: -Detenido (energía == 0) --> El ninja se detiene o no ha empezado
+a correr -Corriendo (energía >= 0 \&\& energía <= 50\%) --> El ninja
+está corriendo, pero a poca velocidad -Corriendo rápido (energía >
+50\%) --> El ninja corre muy rápido, y a medida que corre va desprendiendo
+una polvareda (run\_dust\_continuous.png).
+
+Tras recorrer la distancia requerida (o al acabarse el tiempo) finaliza
+la parte jugable de la prueba. Resultado Dependiendo de si se ha superado
+o no la prueba, se mostrará la animación de victoria o la animación
+de derrota. 
+
+En la línea de llegada se encontrarán otro árbitro idéntico al de
+salida y un torii (run\_bg\_torii.png) que hará de línea de llegada.
+
+Victoria: Se recorre la distancia antes de que acabe el tiempo. Se
+pasa a la pantalla de \textquotedbl{}victoria/resultados\textquotedbl{}.
+Derrota: Se acaba el tiempo del cronómetro antes de que se logre recorrer
+la distancia necesaria. Se pasa a la pantalla de \textquotedbl{}derrota
+/ continuar\textquotedbl{}
+
+Recursos (assets) En estos spritesheets se encuentran todas las animaciones
+de los personajes en este trial.
+
+Preparation: Se usa cuando el personaje aún no ha empezado a correr
+o cuando se para al dejar de pulsar el botón. Run normal: Se usa cuando
+el personaje está corriendo pero no va a más de un porcentaje concreto
+de la máxima velocidad (por ejemplo 75\%) Run fast: Se usa cuando
+el personaje está corriendo a más de un porcentaje concreto de la
+máxima velocidad (por ejemplo 75\% o más) Win: Se usa cuando se acaba
+la prueba con éxito. Lose: Se usa cuando se acaba el tiempo antes
+de llegar a la meta.
+
+run\_ch\_ryoko.png (run\_ch\_sho.png)
+
+Este spritesheet se usa para la animación del polvo que se levanta
+del suelo al iniciar la carrera si el personaje arranca con una energía
+superior al 50\% (por poner un número). run\_dust\_start.png
+
+Este spritesheet se usa para la animación del polvo que se levanta
+del suelo mientras el personaje corre con una energía superior al
+50\%. run\_dust\_continuous.png
+
+Una de las tres capas principales del fondo parallax.
+
+Se encontrará situada al fondo del scroll.
+
+run\_background\_trees\_back.png
+
+Una de las tres capas principales del fondo parallax.
+
+Se encontrará situada sobre la capa del fondo del scroll parallax.
+
+run\_background\_trees\_front.png
+
+Una de las tres capas principales del fondo parallax.
+
+Se encontrará situada sobre las otras dos del scroll parallax.
+
+run\_background\_floor.png
+
+Un elemento animado del fondo parallax. 
+
+Aparecerá al principio y al final del recorrido (como juez de salida
+y llegada)
+
+Se encontrará situado sobre las tres capas del fondo del scroll parallax.
+run\_obj\_judge.png
+
+Un elemento fijo del fondo parallax. 
+
+Aparecerá al final del recorrido. 
+
+La imagen debe ser separada en dos por la marca blanca vertical discontinua
+, para que la mitad izquierda se sitúe bajo la capa de personajes
+y la mitad derecha se sitúe sobre los personajes. run\_bg\_torii.png
+
+Un elemento del HUD.
+
+Se mostrará un sprite u otro dependiendo de la energía del personaje.
+hud\_head\_run.png
+
+Un elemento del HUD.
+
+Se mostrará la anima-ción debajo y sobre la cabeza del hud con un
+alpha de 0'5 cuando la energía del personaje esté al máximo. hud\_heads\_aura.png
+
+Un elemento del HUD.
+
+Sobre la zona del degradado se situará un rectángulo tapando de arriba
+abajo, dejando mostrar más área de la imagen cuanta más energía tenga
+el personaje. hud\_power\_indicator.png
+
+Un elemento del HUD.
+
+Servirá para indicar la situación del personaje en la carrera. run\_line\_bar.png
+
+Un elemento del HUD.
+
+Se dividirá en 2 trozos, uno para cada jugador.
+
+Se situará sobre la línea “run\_line\_bar.png” indicando la situación
+actual del personaje en la carrera. run\_line\_mark.png
+
+Música:
+
+Nombre de archivo: trial\_run.ogg
+
+Loop point: 1 segundo y 600ms Sonidos:
+
+Especificados en el epígrafe 4.2) Efectos de sonido
+
+
+\subsubsection{Cut Trial (prueba de corte)}
+
+Esta prueba consiste en pulsar un botón en un instante exacto indicado
+por un marcador de concentración para que el personaje corte las mechas
+de un grupo de velas encendidas y consiga que se apaguen sin romperlas.
+
+Algo similar a la fase de bonus de bottle cut del Art of Fighting
+(© SNK): http://youtu.be/p4ysiQ1IIcA?t=9m42s http://youtu.be/p4ysiQ1IIcA?t=16m34s
+
+Marcadores Descripción Cuenta atrás Al inicio se mostrará una cuenta
+atrás (Ready? Go!). El jugador no puede pulsar durante la misma. Cronómetro
+Situado en la esquina superior derecha, empezará a correr tras la
+salida de la cuenta atrás. Barra de concentración La barra (hud\_precision\_indicator.png)
+tiene varios rangos de marcas diferenciadas por colores que se distribuyen
+respecto al centro de la misma, y una marca/flecha móvil (hud\_precision\_cursor.png)
+que oscila de derecha a izquierda a una velocidad constante. Cuanto
+más cerca esté la flecha del centro de la barra, más concentrado estará
+el personaje (la barra irá de 0 a 100, siendo 50 el centro exacto).
+Cara del personaje Mostrará diferentes animaciones (de pocos fotogramas)
+indicando la concentración. Una vez se pulse el botón mostrará otra
+animación correspondiente al corte (ambas animaciones estarán en hud\_head\_cut.png).
+
+Controles: Sólo hay que pulsar un botón de acción una vez en el momento
+justo. - A medida que pasa el tiempo la flecha móvil de la barra de
+concentración irá oscilando de derecha a izquierda. - El tiempo del
+cronómetro irá descendiendo. - Al pulsar el botón, se muestran los
+ojos del ninja en primer plano y justo después se muestra la animación
+del corte. Por último se ve el resultado del corte (para dar un poco
+de emoción se oculta el marcador de concentración hasta que se ve
+el resultado). - Cuanto más cerca del centro esté la flecha en el
+momento de la pulsación, mejor será la concentración y mejor será
+el corte (las animaciones del resultado cambian según la concentración).
+
+La puntuación en la prueba la determinarán las siguientes mediciones:
+- Concentración (cuanto más cerca de la marca del centro, más concentración
+y más puntos). - Rapidez al pulsar (la máxima puntuación se consigue
+pulsando el botón en el momento exacto en el centro de la primera
+mitad de la oscilación de la flecha).
+
+Los niveles de dificultad implicarán diferencias en: - Tiempo máximo
+para realizar el corte. - Velocidad de oscilación de la flecha. 
+
+Descripción detallada Prepa-ración Se muestra el escenario de corte
+(cut\_background.png), con los elementos a cortar, que son las velas
+(cut\_breakable\_candle\_base.png, cut\_breakable\_candle\_light.png)
+y un trozo del fondo (cut\_breakable\_tree.png) y al personaje preparándose
+para hacer el corte (en los placeholder actuales, el primer fotograma
+de cut\_ch\_ryoko\_cut\_anim.png y cut\_ch\_sho\_cut\_anim.png). El
+HUD muestra en la esquina inferior izquierda la cara del personaje
+y la barra de concentración, y en la superior derecha el cronómetro,
+todos ellos aún inactivos. Se muestra en el centro de la pantalla
+un aviso de preparación/cuenta atrás (“Ready?” “Cut!”). Juego Tras
+el inicio del juego se ponen en marcha el cronómetro y la barra de
+concentración/precisión. La cara del personaje en el HUD cambia según
+el valor de concentración en ese momento. Tras pulsar el botón (o
+al finalizarse el tiempo) primero se ve un zoom de los ojos del personaje
+(cut\_ch\_ryoko\_eyes.png, cut\_ch\_sho\_eyes.png) y después se muestra
+una animación (los 3 últimos fotogramas de cut\_ch\_ryoko\_cut\_anim.png
+y cut\_ch\_sho\_cut\_anim.png) en la que realiza los cortes (cut\_sword\_sparkle1.png
+, cut\_sword\_sparkle2.png), tras eso hay una pausa dramática (finaliza
+la parte jugable de la prueba). Resultado Dependiendo de lo bien que
+se haya realizado la prueba, se mostrará una animación u otra y un
+texto (el texto es opcional, cuando tengamos la pantalla de resultados
+no hará falta mostrarlo) informando de la puntuación obtenida. Los
+resultados posibles son: Fallo --> El ninja no corta las velas, sino
+que les da un golpe con la espada, unas se caen y otras salen volando.
+Las velas incendian algún elemento del escenario (esto no se muestra
+en esta iteración). El ninja muestra una animación de derrota cómica
+típica del manganime ( permanece en la misma posición de corte y le
+cae una gota de sudor gigante por la cabeza cut\_ch\_sweatdrop.png).
+Normal --> Corta las velas, que caen resbalando a la altura del corte
+y se apagan. Algunas se tambalean. El ninja pone su pose ganadora
+(en la primera iteración el ninja permanece en la misma posición de
+corte y le brilla uno de los ojos cut\_ch\_sparkle.png). Bien -->
+Corta las mechas de las velas y el fuego de las mismas se apaga. El
+ninja pone su pose ganadora. Perfecto --> Corta el fuego las mechas
+de las velas. También corta un elemento del escenario (aún por decidir,
+en el placeholder actual es un árbol). El ninja pone su pose ganadora
+especial.
+
+¡Aviso! En la 1ª iteración sólo se mostrará una animación para fallo
+(gota de sudor) y otra para el resto de resultados (brillo en la mirada)
+y el texto informando la puntuación (el texto es opcional, cuando
+tengamos la pantalla de resultados no hará falta mostrarlo). 
+
+Victoria: Pulsar el botón dentro de los rangos de marcas del centro
+de la barra. Se pasa a la pantalla de \textquotedbl{}victoria / resultados\textquotedbl{}.
+Derrota: Se acaba el tiempo antes de que se pulse el botón o se pulsa
+pero fuera de los rangos de las marcas centrales. Se pasa a la pantalla
+de \textquotedbl{}derrota / continuar\textquotedbl{}
+
+Recursos (assets) En estos spritesheets se encuentran todas las animaciones
+de los personajes en este trial.
+
+Preparation: El personaje aún se está preparando para hacer el corte
+(aunque ahora sólo usamos un frame, se planea aumentar el número).
+
+Cut animation: El personaje realiza el corte y permanece en la postura
+del último fotograma.
+
+Win: El personaje permanece en el último fotograma de corte y le brilla
+un ojo.
+
+Lose: El personaje permanece en el último fotograma de corte y le
+cae una gota de sudor por la frente. cut\_ch\_sho\_cut\_anim.png (cut\_ch\_ryoko\_cut\_anim.png)
+
+Estas imágenes se usan como efectos de las animaciones de victoria
+(brillo de un ojo) y de derrota (gota de sudor cayendo por la frente)
+respectivamente. cut\_ch\_sparkle.png / cut\_ch\_sweatdrop.png Imagen
+usada para semejar un zoom a los ojos del personaje al cortar.
+
+cut\_ch\_sho\_eyes.png (cut\_ch\_ryoko\_eyes.png)
+
+Brillos de la espada mientras se hacen los cortes.
+
+La primera es sólo una imagen, la segunda es una animación.
+
+cut\_sword\_sparkle1.png / cut\_sword\_sparkle2.png 
+
+Fondo de la fase. Ahora mismo es fijo y en una sola capa. cut\_background.png
+
+Cuerpo del elemento a cortar. Ahora mismo son dos candelabros, pero
+se planean hacer velas. Se incluiría las animaciones de las velas
+cortadas. cut\_breakable\_candle\_base.png
+
+Animación con la luz de los candelabros. Se planea que incluya las
+animaciones de las llamas de las velas, tanto mientras arden como
+mientras se apagan.
+
+cut\_breakable\_candle\_light.png
+
+Cuerpo de un elemento del fondo que se corta sólo cuando se hace un
+corte con una puntuación excepcional.
+
+Ahora mismo es un árbol. Se podría alterar o sumar más elementos.
+Incluiría también la animación de este elemento cuando es cortado
+
+cut\_breakable\_tree.png
+
+Este elemento del HUD no se usa en esta iteración. hud\_head\_cut.png
+
+Este elemento del HUD servirá para indicar la concentración actual
+del personaje. hud\_precision\_cursor.png
+
+Este elemento del HUD se usa junto con el cursor (el anterior), que
+señala oscilando sobre este. 
+
+La máxima concentración sería cuando el cursor marca sobre la línea
+central. hud\_precision\_indicator.png
+
+Música:
+
+Nombre de archivo: trial\_cut.ogg
+
+Loop point: - Sonidos:
+
+Especificados en el epígrafe 4.2) Efectos de sonido
+
+
+\subsubsection{Jump Trial (prueba de salto)}
+
+Esta prueba consiste en subir botando entre dos cañas de bambú increíblemente
+altas. Hay que conseguir llegar a una altura especificada antes de
+un tiempo especificado. Para ello hay que pulsar un botón en un instante
+exacto indicado por un marcador de salto que aparece cada vez que
+el personaje intenta rebotar en un bambú. 
+
+Algo similar a la fase de tower topper del Numan Athletics (© Namco):
+http://youtu.be/nhwtq4chhlI?t=1m13s
+
+Marcadores Descripción Cuenta atrás Al inicio se mostrará una cuenta
+atrás (Ready? Go!). Las pulsaciones del jugador no tienen efecto durante
+la misma. Cronómetro Situado en la esquina superior derecha, empezará
+a correr tras la salida de la cuenta atrás. Marcador de salto El marcador
+(hud\_angle\_indicator.png) tiene varios rangos diferenciados por
+colores que se distribuyen según el ángulo, sobre ella hay una marca
+y una flecha móvil (hud\_angle\_cursor.png) que se desplazan hacia
+arriba una vez el personaje se pose sobre el bambú. Cuanto más cerca
+esté la flecha de la marca celeste (que está dentro de la zona roja)
+de la barra, mejor será el ángulo y más saltará el personaje. Cara
+del personaje Mostrará diferentes animaciones de la cabeza (hud\_head\_jump.png)
+del personaje, con pocos fotogramas (en el placeholder actual, de
+un sólo fotograma) para indicar el estado del salto (rebotando / en
+el aire). 
+
+Controles: Hay que pulsar un botón repetidamente en el momento justo.
+- Tras la cuenta atrás el tiempo del cronómetro irá descendiendo.
+- El primer salto (desde el suelo) se hace simplemente al pulsar un
+botón. - Cuando el personaje toca el bambú que tiene enfrente, la
+flecha móvil de la barra de salto irá moviéndose hacia arriba, formando
+la línea que va siguiendo a la flecha un ángulo cada vez mayor. El
+punto óptimo está marcado por una línea azul. - Si la flecha móvil
+asciende demasiado, el personaje se caerá. - Si el personaje cae desde
+menos de cierta altura (por ejemplo, dos saltos), la caída no hace
+perder la prueba, sino que se puede continuar saltando (el cronómetro
+no se resetearía). - Si el personaje cae desde más arriba de esa altura,
+se pierde la prueba.
+
+La puntuación en la prueba la determinarán las siguientes mediciones:
+- Tiempo en llegar arriba. - Cantidad de saltos perfectos. - Máximo
+combo de saltos perfectos.
+
+Los niveles de dificultad implicarán diferencias en: - Tiempo máximo
+para llegar arriba. - Velocidad de movimiento en el indicador del
+marcador de salto. - Precisión necesaria para conseguir un salto perfecto. 
+
+Victoria: Llegar arriba del todo antes de que acabe el tiempo del
+cronómetro. Se pasa a la pantalla de \textquotedbl{}victoria / resultados\textquotedbl{}.
+Derrota: Se acaba el tiempo antes de que se llegue arriba o el personaje
+se cae (desde suficiente altura) debido a que pulsa el botón en mal
+momento (o no lo pulsa). Se pasa a la pantalla de \textquotedbl{}derrota
+/ continuar\textquotedbl{}
+
+Descripción detallada Prepa-ración Se muestra el escenario de salto
+(un scroll parallax vertical con jump\_bg\_2\_bamboo\_forest\_1.png,
+jump\_bg\_3\_bamboo\_forest\_2.png. jump\_bg\_4\_mount.png. jump\_bg\_5\_pagoda.png.
+jump\_bg\_6\_clouds.png. jump\_bg\_7\_lake.png. jump\_bg\_8\_mount\_fuji.png.
+jump\_bg\_9\_sky.png. jump\_bg\_1\_stone\_statues.png), con una caña
+de bambú a la izquierda y otra a la derecha (jump\_bg\_1\_bamboo.png),
+y al personaje (jump\_ch\_ryoko.png, jump\_ch\_sho.png) entre ellas,
+preparándose para empezar a saltar. Mientras se prepara, los pies
+del personaje desprenden un aura (jump\_effect\_preparation.png). 
+
+Se muestra el HUD muestra en la esquina inferior izquierda la cara
+del personaje, y el la superior derecha el cronómetro, todos ellos
+aún inactivos.
+
+Se muestra en el centro de la pantalla un aviso de preparación/cuenta
+atrás (Ready? Jump!). Juego Tras el inicio del juego se ponen en marcha
+el cronómetro y el jugador puede iniciar los saltos pulsando el botón
+de acción (el primer salto siempre es perfecto). 
+
+Cada vez que el personaje alcanza el bambú hacia el que saltaba, se
+muestra el marcador de salto, que muestra el ángulo/potencia de salto
+(la animación del sprite del personaje y la cara del personaje en
+el HUD cambian según el valor del ángulo de salto en ese momento). 
+
+Si se pulsa el botón de acción el personaje rebota. Dependiendo del
+ángulo, el salto será mejor o peor. Cuanto más arriba el salto será
+mejor, pero si se pasa, el personaje se caerá.
+
+Si el rebote es perfecto, se mostrará un efecto (jump\_effect\_wall\_kick.png)
+en los pies del ninja.
+
+Si el personaje cae desde menos de cierta altura (por ejemplo, dos
+saltos), la caída no hace perder la prueba, sino que se puede continuar
+saltando desde abajo del todo (pero el cronómetro no se resetea).
+Si el personaje cae desde más arriba de esa altura, se pierde la prueba.
+Resultado Si se llega arriba antes de que acabe el tiempo se supera
+la prueba (el personaje salta y cae en equilibrio sobre el bambú).
+
+Si se falla una pulsación y se cae desde muy alto o se pasa el tiempo
+límite se falla la prueba (al pasar el tiempo el ninja también se
+caería). 
+
+Se mostrará una animación u otra en consecuencia del resultado de
+la prueba.
+
+Recursos (assets) Preparation: El personaje se prepara para hace el
+primer salto desde el suelo. También sirve para repetir el salto desde
+el suelo si el personaje se cae desde poca altura (el primer o segundo
+rebotes como mucho).
+
+Jump normal: Se usa cuando se consigue rebotar pero se le ha dado
+muy pronto al botón.
+
+Jump good: Se usa cuando se consigue rebotar y se espera suficiente
+para que sea un buen salto.
+
+Jump excellent: Se usa cuando se consigue rebotar y se hace un salto
+perfecto (el primer salto desde el suelo usa también esta animación)
+
+Reaching wall: Animación que se usa cuando el personaje está llegando
+al bambú y se prepara para rebotar.
+
+Charging jump: Se usa cuando se acaba de tocar la pared y se está
+preparando el siguiente salto (en ese momento también se muestra el
+marcador de salto)
+
+Reaching top \& Win pose: Se usa cuando el personaje llega arriba
+del todo.
+
+Fail \& fall: Se usa cuando no se le da al botón a tiempo y se cae
+el personaje jump\_ch\_ryoko.png (jump\_ch\_sho.png)
+
+Efecto de “aura” que se muestra en los pies mientras se está preparando
+para hacer el primer salto jump\_effect\_preparation.png
+
+Efecto de “aura” que se muestra en los pies cuando se rebota contra
+un bambú jump\_effect\_wall\_kick.png
+
+Factor de velocidad aproximada de la capa parallax = -10.0f
+
+Imagen que se usará en ambos bambú en los que el personaje rebota.
+
+Se deberá trocear en tres partes: -El trozo inferior aparecerá abajo
+del scroll. -El trozo medio se repetirá verticalmente a lo largo del
+scroll parallax hasta completar la altura indicada. -El trozo superior
+aparecerá arriba del todo del scroll.
+
+Ver ejemplo funcionando con todas las capas en : https://github.com/jjhaggar/EjemploParallax
+jump\_bg\_1\_bamboo.png
+
+Factor de velocidad aproximada de la capa parallax = -10.0f
+
+Estas estatuas de monjes aparecerán junto a uno de los bambús. Su
+utilidad en el juego es meramente decorativa. jump\_bg\_1\_stone\_statues.png
+
+Factor de velocidad aproximada de la capa parallax = -9.0f
+
+Fondo más cercano al personaje. 
+
+Al igual que sucede con el bambú, la imagen se dividirá en tres partes,
+inferior, media y superior. La zona media se repite unas cuantas veces
+(muchas menos que la del bambú sólo). jump\_bg\_2\_bamboo\_forest\_1.png
+
+Factor de velocidad aproximada de la capa parallax = -5.5f
+
+Segundo fondo más cercano al personaje. 
+
+Al igual que sucede con el bambú, la imagen se dividirá en tres partes,
+inferior, media y superior. La zona media se repite unas cuantas veces
+(muchas menos que la del fondo más cercano al personaje). jump\_bg\_3\_bamboo\_forest\_2.png
+
+Factor de velocidad aproximada de la capa parallax = -4.5f
+
+Tercer fondo más cercano.
+
+Montaña cercana, llena de árboles situada a la derecha de la pantalla
+mientras se asciende. jump\_bg\_4\_mount.png
+
+Factor de velocidad aproximada de la capa parallax = -4.0f
+
+Cuarto fondo más cercano.
+
+Pagoda situada tras la montaña cercana, también a la derecha de la
+pantalla mientras se asciende. jump\_bg\_5\_pagoda.png
+
+Factor de velocidad aproximada de la capa parallax = -2.0f
+
+Nubes que en principio serán el quinto fondo más cercano. jump\_bg\_6\_clouds.png
+
+Factor de velocidad aproximada de la capa parallax = -2.0f
+
+El lago empataría con las nubes en lejanía. jump\_bg\_7\_lake.png
+
+Factor de velocidad aproximada de la capa parallax = -1.8f
+
+El monte Fuji sería (detrás del cielo) el segundo fondo más alejado.
+jump\_bg\_8\_mount\_fuji.png
+
+Factor de velocidad aproximada de la capa parallax = -0.5f
+
+El cielo sería el fondo más alejado. Con un factor parallax de -0.5f,
+casi no se movería. jump\_bg\_9\_sky.png
+
+Este elemento del HUD no se usa en esta iteración. hud\_head\_jump.png
+
+Este elemento del HUD servirá para indicar la potencia del siguiente
+salto del personaje. Aparecerá brevemente cuando el personaje toque
+el bambú para rebotar en él. hud\_angle\_indicator.png
+
+Este elemento del HUD servirá para indicar la el ángulo actual del
+salto. hud\_precision\_cursor.png
+
+Música:
+
+Nombre de archivo: trial\_jump.ogg
+
+Loop point: - Sonidos:
+
+Especificados en el epígrafe 4.2) Efectos de sonido
+
+
+\subsubsection{Shuriken Throwing Trial (prueba de lanzamiento de shurikens)}
+
+Esta prueba consiste en alcanzar con shurikens una serie de enemigos
+(en principio hombres de paja). Para ello se puede apuntar moviendo
+las manos a dereca o izquierda de la pantalla pulsando derecha e izquierda
+en el D-pad y lanzar shurikens pulsando un botón. Hay que acabar con
+todas las oleadas para superar la prueba.
+
+Algo similar a la fase de bonus de Shinobi (© SEGA): http://youtu.be/Soyt3nTDfQ4?t=2m6s
+
+Marcadores Descripción Cuenta atrás Al inicio de la fase se mostrará
+una cuenta atrás (Ready? Go!). El jugador puede lanzar shurikens durante
+la misma. Número de enemigos En la parte superior derecha se mostrará
+un muñeco pequeño (hud\_head\_shuriken.png), a su derecha un signo
+de multiplicar “x” y a la derecha de este el número de enemigos que
+quedan. Marcador de shurikens Se muestra la cabeza del personaje y
+a su lado el tantas imágenes de shuriken como shurikens puede lanzar
+en ese momento (hud\_head\_shuriken.png). Cuando se lanza un shuriken
+desaparece una de las imágenes de shuriken. A medida que pasa el tiempo
+se van reponiendo (aproximadamente 1 por segundo).
+
+¡Aviso! En la 1ª iteración este marcador no se utilizará. Manos personaje
+La vertical sobre las manos indica a dónde estamos apuntando en ese
+momento.
+
+Controles: Hay que mover las manos a derecha o izquierda para apuntar
+y pulsar un botón para disparar. - Tras iniciar el juego salen enemigos
+al fondo y van recorriendo horizontalmente la pantalla y acercándose
+de forma alternada. - El jugador puede desplazar las manos del personaje
+a derecha e izquierda usando el D-Pad. - El jugador puede disparar
+a los enemigos pulsando el botón de acción. Si un número de shurikens
+(en principio uno) impacta en un enemigo, este es destruido. - Si
+un número de enemigos (en principio uno) llegan a tocar al personaje
+se pierde la partida.
+
+La puntuación en la prueba la determinarán las siguientes mediciones:
+- Precisión: Nº enemigos abatidos / Nº Shurikens lanzados (máximo
+= 1). - Rapidez al eliminar los enemigos (una forma de medir esto
+sería sumar el tiempo que se ha tardado en eliminar a todos los enemigos,
+cuanto menor sea este tiempo, mejor puntuación).
+
+Los niveles de dificultad implicarán diferencias en: - Número de enemigos.
+- Velocidad de los enemigos. - Recorrido horizontal medio. - Número
+de impactos que soportan los enemigos. - Número de “Vidas” (ataques
+que puede encajar el personaje).
+
+Victoria: Eliminar a todos los enemigos. Derrota: Consiguen alcanzar
+al personaje cierto número de enemigos (en principio 1).
+
+Descripción detallada Prepa-ración Se muestra el escenario de lanzamiento
+de shurikens, y las manos del personaje. El HUD muestra en la esquina
+superior derecha el número de enemigos que hay que abatir. Se muestra
+en el centro de la pantalla un aviso de preparación/cuenta atrás (Ready?
+Go!). Durante dicho aviso se puede mover las manos con el D-Pad y
+lanzar shurikens con el botón de acción (pero al no haber empezado
+la prueba, el lanzamiento de los mismos no contabilizará y no afectará
+a la precisión). Juego Hay dos “carriles” horizontales, uno lejos
+y otro a media distancia. Si no son abatidos por los shurikens los
+enemigos bajarán primero por el que está lejos y recorrerán una parte
+del “carril”, tras eso subirán de nuevo a los árboles y bajarán en
+el “carril” que está a media distancia, recorrerán una parte de ese
+carril y volverán a ascender a los árboles, tras eso caerá junto al
+personaje y le quitará una “vida”. 
+
+El jugador debe mover las manos del personaje a derecha o izquierda
+para apuntar a los enemigos y pulsar el botón de acción para lanzar
+shurikens. Los shurikens tienen una velocidad constante, con lo que
+el jugador deberá calcular mentalmente en cada momento la trayectoria
+de los enemigos para poder alcanzarlos al disparar. Resultado Si se
+acaban las “vidas” del personaje (en principio una) o se elimina a
+todos los enemigos se acaba la prueba.
+
+Las manos desaparecerían bajando por la pantalla y según el resultado
+se mostraría la animación de victoria o la de derrota.
+
+Recursos (assets) Estos spritesheet sirven para:
+
+El movimiento de las manos, tanto cuando se está quieto en un mismo
+sitio o cuando se está desplazando a derecha e izquierda (por ahora
+todo es el mismo frame, el 3, pero más adelante se pueden hacer animaciones
+simples para los tres casos).
+
+El lanzamiento de un shuriken (usando los tres frames) shuriken\_sho\_hands.png
+(shuriken\_ryoko\_hands.png)
+
+Este spritesheet sirve para animar el movimiento del shuriken lanzado
+al alejarse.
+
+Se hace así en lugar de usar una sóla imagen y rotarla mediante programación
+para que la animación encaje con el espíritu “oldschool” del resto
+del juego.
+
+shuriken\_shuriken.png
+
+Animación de victoria. shuriken\_sho\_win.png (shuriken\_ryoko\_win.png)
+
+Animación de derrota. shuriken\_sho\_lose.png (shuriken\_sho\_lose.png)
+
+Enemigos a lo lejos.
+
+Los dos fotogramas de la derecha son para cuando aparece el muñeco
+desde arriba. También sirve para cuando desaparece nuevamente hacia
+arriba.
+
+El primer fotograma es para cuando se desplaza lateralmente (rotar
+para el desplazamiento al otro lado)
+
+shuriken\_strawman\_1.png
+
+Enemigos a media distancia.
+
+Al igual que con el spritesheet anterior, los dos fotogramas de la
+derecha son para cuando aparece el muñeco desde arriba y para cuando
+desaparece nuevamente hacia arriba. Y del mismo modo el primer fotograma
+es para cuando se desplazan lateralmente (rotar para el desplazamiento
+al otro lado)
+
+shuriken\_strawman\_2.png
+
+Enemigo cerca del personaje.
+
+Si puedes leer el letrero con el kanji “muere” que hay en su pecho
+es que estás demasiado cerca.
+
+Aparece cuando algún enemigo ha conseguido recorrer los dos caminos
+(primero el segmento a lo lejos y luego el segmento a media distancia)
+sin ser abatido. shuriken\_strawman\_3.png
+
+Fondo de la fase. Ahora mismo es fijo y en una sola capa. Más adelante
+probablemente se divida en dos capas como mínimo.
+
+shuriken\_background.png
+
+Esta imagen contiene varios elementos del HUD.
+
+Se usará el pequeño muñeco para crear un contador para los enemigos
+que quedan por destruir. La imagen irá junto a un número que muestre
+ese número.
+
+En esta iteración no se usará las imágenes de las cabezas ni las de
+los shurikens.
+
+hud\_head\_shuriken.png
+
+Música:
+
+Nombre de archivo: trial\_cut.ogg
+
+Loop point: - Sonidos:
+
+Especificados en el epígrafe 4.2) Efectos de sonido
+
+
+\subsection{Pause Screen (pantalla de pausa)}
+
+Llegamos a la pantalla de pausa desde cualquier prueba/trial pulsando
+el \textquotedbl{}botón Ouya\textquotedbl{}
+
+Se detienen la música y las animaciones del juego, y se oscurece la
+pantalla bajo el “cartel” de pausa (menu\_pause\_bamboo\_frame.png),
+mostrándose las opciones \textquotedbl{}Continuar\textquotedbl{} (marcada
+por defecto), “Opciones” y \textquotedbl{}Salir\textquotedbl{}.
+
+Si se pulsan el botón “HOME\textquotedbl{} o el botón “A” en cualquier
+sitio, o si se pulsan los botones “O”, “U” o “Y” teniendo seleccionada
+la opción \textquotedbl{}Continuar\textquotedbl{} se reanuda el juego.
+Si se pulsan los botones “O”, “U” o “Y” teniendo seleccionada la opción
+\textquotedbl{}Opciones\textquotedbl{} se pasa al \textquotedbl{}menú
+opciones\textquotedbl{}. Si se pulsan los botones “O”, “U” o “Y” teniendo
+seleccionada la opción \textquotedbl{}Salir\textquotedbl{} se presenta
+un diálogo de confirmación “Sí”/”No” - Si se elige “No”, se vuelve
+a la pantalla de pause original con las 3 opciones. - Si se elige
+“Sí”, se pasa al \textquotedbl{}menú principal\textquotedbl{}.
+
+
+\subsection{Lose / Continue Screen (pantalla de derrota / continuación)}
+
+Se muestra un fondo (results\_lose\_background.png) y una imagen con
+el ninja derrotado (results\_lose\_ch\_ryoko.png, results\_lose\_ch\_sho.png)
+al tiempo que se escucha una música de derrota (y/o la frase \textquotedbl{}You
+Lose!/You Lost!\textquotedbl{}... ¿en japonés?). Acto seguido se muestra
+el texto \textquotedbl{}Continúe?\textquotedbl{} y empieza una cuenta
+atrás de 10 segundos (en el caso de estar jugando en el nivel de dificultad
+\textquotedbl{}difícil\textquotedbl{}, se muestran los intentos/vidas/continuaciones
+que le quedan al jugador) hay dos opciones: \textquotedbl{}Yes\textquotedbl{}
+(seleccionada por defecto) y \textquotedbl{}No\textquotedbl{}.
+
+Si el jugador pulsa sobre \textquotedbl{}Yes\textquotedbl{} (y le
+quedan continuaciones) pasa a la pantalla de mapa y continúa por la
+misma prueba en la que falló (en este caso no saldrá el \textquotedbl{}how
+to play\textquotedbl{} al pulsar un botón, sino directamente la prueba).
+Si el jugador pulsa sobre \textquotedbl{}No\textquotedbl{}, o se acaba
+el tiempo de la cuenta atrás, o no le quedan \textquotedbl{}continues\textquotedbl{},
+se pone la pantalla en gris, se muestra la frase \textquotedbl{}Game
+over\textquotedbl{} y tras un fundido a negro se vuelve a la pantalla
+de inicio.
+
+
+\subsection{Win / Results Screen (pantalla de victoria / resultados)}
+
+Se muestra un pergamino en el centro (results\_win\_scroll.png) con
+la imagen de la prueba (results\_win\_drawings.png) y a la izquierda
+(o a cada lado si están jugando ambos jugadores) el personaje en pose
+de victoria (results\_win\_ch\_ryoko.png, results\_win\_ch\_sho.png)
+y en su mismo lado se muestran sus puntos en la prueba y una imagen
+de un sello con su calificación (results\_win\_stamp\_ranking.png).
+Las calificaciones podrían ser, por ejemplo: Novice, Ninja, Ninja
+Master, Grand Master. 
+
+Los puntos se van sumando poco a poco a la puntuación global, que
+se mostrará abajo, emitiendo al mismo tiempo un sonido característico
+de \textquotedbl{}incremento de puntos\textquotedbl{} (menu\_points\_sum.ogg). 
+
+Si se pulsa un botón se interrumpe la animación de los números que
+estaban \textquotedbl{}sumando poco a poco\textquotedbl{} y se suman
+del todo (por ejemplo, so se estaban sumando los puntos del “tiempo”,
+se terminan de sumar todos esos puntos y se pasa a sumar los puntos
+de “combo”). Si se pulsa start se omiten todas las animaciones y se
+muestra el resultado de todas las sumas en la puntuación global, al
+mostrarse este resultado sse escucha el sonido de “fin de suma de
+puntos” (menu\_points\_total.ogg).
+
+Esta animación y sonidos no es necesario añadirlos en esta iteración,
+pero se muestra un ejemplo similar a lo que se pretende en el siguiente
+enlace: http://youtu.be/5NLy\_ZZB\_vk?t=1m50s (se suma el tiempo y
+luego el perfect).
+
+Si se pulsa cualquier botón mientras se está mostrando el resultado
+final y quedan pruebas por superar se pasa a la pantalla del mapa.
+Si se pulsa cualquier botón mientras y se han superado todas la pruebas
+se pasa a la pantalla de \textquotedbl{}ending\textquotedbl{}.
+
+
+\subsection{Ending Screen (pantalla de final de juego)}
+
+El personaje le muestra al maestro los pergaminos de todas las pruebas
+que ha superado y este muestra su aprobación.
+
+Tras eso se muestra una escena (probablemente cómica) del personaje
+tras ser nombrado ninja en su clan. Las escenas constarán de texto
+y de animaciones simples, hechas en su mayoría mediante desplazamiento
+de capas superpuestas.
+
+Habrá una escena de ending diferente para cada personaje. En posteriores
+iteraciones aparte de los dos anteriores también habrá uno para ambos,
+y los tres variarán en función de la dificultad.
+
+Las historias y storyboards están aún por determinar.
+
+Si se pulsa un botón cualquiera no pasa nada. Si se pulsa el botón
+start aparece durante tres segundos un texto pequeño con el mensaje
+\textquotedbl{}pulsa start de nuevo para omitir\textquotedbl{}, si
+se pulsa start de nuevo antes de que desaparezca el mensaje se interrumpe
+el \textquotedbl{}ending\textquotedbl{} y se pasa a la \textquotedbl{}pantalla
+de créditos\textquotedbl{}.
+
+
+\subsection{Credits Screen (pantalla de créditos)}
+
+Se muestra sobre un fondo (ending\_credits\_background.png) un listado
+con toda la gente que ha hecho posible el proyecto junto con imágenes
+cómicas de ninjas relacionadas con ellos o su trabajo (ending\_credits\_categories.png),
+incluyendo colectivos como la comunidad de AndEngine, etc. Se mostrarán
+también sus logotipos (ending\_credits\_logo\_estudioevergreen.png,
+ending\_credits\_logo\_andengine.png).
+
+Está por determinar tanto el listado como el modo de irlo mostrando.
+Dos posibles opciones:
+
+1) Mostrarlo como suele hacerse en los “créditos de las películas”.
+Un listado de texto y logotipos que van subiendo por la pantalla de
+forma continua.
+
+2) Mostrarlo \textquotedbl{}a pantallazos\textquotedbl{}, haciendo
+aparecer y desvanecer las letras cada cierto tiempo para mostrar el
+texto y los logotipos.
+
+Si se pulsa un botón cualquiera no pasa nada. Si se pulsa el botón
+start aparece durante tres segundos un texto pequeño con el mensaje
+\textquotedbl{}pulsa start de nuevo para omitir\textquotedbl{}, si
+se pulsa start de nuevo antes de que desaparezca el mensaje se interrumpe
+la \textquotedbl{}pantalla de créditos\textquotedbl{} y se pasa a
+la \textquotedbl{}pantalla de récords\textquotedbl{}, destacando el
+resultado actual (incluso aunque no se esté entre los primeros de
+la lista).
+
+
+\subsection{Loading Screen (pantalla de carga) {*}}
+
+Esta pantalla sólo se realizará si es estrictamente necesaria. Si
+por el contrario es posible cargar todos los assets en la \textquotedbl{}Splash
+screen\textquotedbl{} sin perjuicio de la experiencia de juego, la
+pantalla de carga no se creará.
+
+La pantalla de carga mostraría el texto \textquotedbl{}Now loading\textquotedbl{},
+e incluiría un minijuego del tipo \textquotedbl{}Mover un gato ninja
+a derecha a izquierda por la pantalla\textquotedbl{} o \textquotedbl{}rotar
+un shuriken\textquotedbl{} pulsando derecha o izquierda. Algo que
+amenice la carga pero cuyo sprite sea pequeño y tenga dos fotogramas
+como máximo.
+
+
+\section{Audio}
+
+Los efectos de sonido y las músicas estarán comprimidos en formato
+Ogg Vorbis, a una frecuencia de muestreo de 44.1 kHz (o quizá de 48
+kHz) y con un bitrate de 192 kbits/s (calidad -q6), o quizá de 320
+kbits/s (calidad -q9). 
+
+Sería deseable utilizar formato de música tracker (\textquotedbl{}.it\textquotedbl{}
+o \textquotedbl{}.mod\textquotedbl{}) en lugar de \textquotedbl{}.ogg\textquotedbl{},
+por su tamaño excepcionalmente reducido y su diseño específico para
+crear diversos bucles en las músicas. Sin embargo esto entraña tres
+problemas: 1. No sabemos si con ello ahorraríamos recursos o todo
+lo contrario (necesitaríamos hacer antes pruebas de rendimiento con
+músicas \textquotedbl{}.ogg\textquotedbl{} vs músicas \textquotedbl{}.it\textquotedbl{}
+para comprobarlo). 2. Habría que rehacer las músicas desde cero (por
+ejemplo con OpenMPT). No hay métodos para lograr una conversión de
+música en formato de audio estándar a música en formato tracker de
+forma automatizada. 3. Ciertos efectos en la música se perderían,
+o serían bastante complicados de hacer. Pese a lo anterior, no se
+descarta que en próximas iteraciones se hagan pruebas para que las
+músicas estén en este formato.
+
+Documentación relacionada: Frecuencia de muestreo: http://en.wikipedia.org/wiki/Sampling\_rate\#Audio
+Bitrate: http://en.wikipedia.org/wiki/Bit\_rate\#Audio Música tracker:
+http://en.wikipedia.org/wiki/Tracker\_(music\_software)
+
+A continuación (epígrafes 4.1 y 4.2) se listan las músicas y los efectos
+de sonido, indicando su uso.
+
+
+\subsection{Músicas}
+
+Estarán en el subdirectorio \textquotedbl{}assets/music\textquotedbl{},
+y salvo indicar lo contrario tendrán extensión \textquotedbl{}ogg\textquotedbl{}.
+
+Nombre Descripción / Pantallas en las que saldrá ¿Hecha? Duración
+Loop intro1 Saldrá en la primera presentación Sí
+
+menu Pantalla de menú principal, opciones, logros, info. pers. y selec.
+pers. No
+
+records Pantalla de récords. No
+
+intro2 Segunda presentación (tras elegir personaje) No
+
+map Pantalla de mapa No
+
+trial\_run Prueba de carrera En proceso
+
+trial\_cut Prueba de corte En proceso
+
+trial\_jump Prueba de salto de pared en pared Sí
+
+trial\_throw Prueba de lanzamiento de shuriken Sí
+
+result\_win Pantalla de victoria / resultado de la prueba
+
+result\_lose Pantalla de derrota / continuación En proceso
+
+game\_over Pantalla de “Juego Terminado” (cuando se pierde y no se
+continúa) En proceso
+
+ending Pantalla de final de juego (quizás haga falta más de una música)
+En proceso
+
+credits Pantalla con los créditos del juego. En proceso
+
+
+\subsection{Efectos de sonido}
+
+Estarán en el subdirectorio \textquotedbl{}assets/sounds\textquotedbl{},
+y salvo indicar lo contrario tendrán extensión \textquotedbl{}ogg\textquotedbl{}.
+
+Nombre Descripción / Pantallas en que saldrá menu\_logo\_madgear Sonido
+de engranajes mientras sale nuestro logo menu\_intro1 Saldrá al final
+de la primera presentación, probablemente un sonido metálico, de un
+shuriken o similar menu\_focus Pantallas de menú principal, opciones
+y logros. Se escuchará al cambiar el foco de una opción a otra menu\_activate
+Pantallas de menú principal, opciones y logros. Se escuchará al elegir
+una opción menu\_back Pantallas de menú principal, opciones y logros.
+Se escuchará al volver atrás menu\_points\_sum Sonido de los puntos
+al sumarse menu\_points\_total Sonido de los puntos al concluir la
+suma menu\_achievement Sonido de cuando se consigue un logro menu\_rank
+Sonido de cuando te dan la calificación obtenida en la prueba judge\_9
+Voces de la cuenta atrás judge\_8 Voces de la cuenta atrás judge\_7
+Voces de la cuenta atrás judge\_6 Voces de la cuenta atrás judge\_5
+Voces de la cuenta atrás judge\_4 Voces de la cuenta atrás judge\_3
+Voces de la cuenta atrás judge\_2 Voces de la cuenta atrás judge\_1
+Voces de la cuenta atrás judge\_ready Voces de la cuenta atrás judge\_go
+Voces de la cuenta atrás judge\_you\_lose Voz de \textquotedbl{}You
+lose/failed\textquotedbl{} judge\_you\_win Voz de \textquotedbl{}You
+win\textquotedbl{} judge\_game\_over Voz de \textquotedbl{}Game Over\textquotedbl{}
+judge\_good Voz que comunica el resultado de la prueba judge\_great
+Voz que comunica el resultado de la prueba judge\_excellent Voz que
+comunica el resultado de la prueba trial\_run\_tap1 Sonido de pasos
+al correr (lento) trial\_run\_tap2 Sonido de pasos al correr (normal)
+trial\_run\_tap3 Sonido de pasos al correr (rápido) trial\_run\_wind\_1\_start
+Sonido al arrancar a velocidad máxima trial\_run\_wind\_2\_running
+Sonido al cortar el viento mientras se corre a velocidad máxima trial\_run\_wind\_3\_end
+Sonido al llegar a velocidad máxima trial\_cut\_whoosh1 Sonidos de
+la katana al cortar el viento trial\_cut\_whoosh2 Sonidos de la katana
+al cortar el viento trial\_cut\_whoosh3 Sonidos de la katana al cortar
+el viento trial\_cut\_katana\_cut1 Sonidos de corte trial\_cut\_katana\_cut2
+Sonidos de corte trial\_cut\_katana\_cut3 Sonidos de corte trial\_cut\_candle\_blow\_out
+Sonidos de vela al apagarse trial\_cut\_candle\_showing\_cut Sonidos
+de vela al mostrar el corte trial\_cut\_candle\_wobble Sonidos de
+vela al tambalearse a punto de caerse trial\_cut\_candle\_wobble\_thud
+Sonidos de vela al tambalearse y caerse trial\_cut\_candle\_thud Sonidos
+de vela al caer y tocar el suelo trial\_cut\_eyes\_zoom Sonido de
+tensión cuando ha realizado el corte (al abrir los ojos) trial\_jump\_tap1
+Sonido al rebotar en un bambú trial\_jump\_tap2 Sonido al rebotar
+en un bambú trial\_jump\_whoosh1 Sonido al saltar (salto normal) trial\_jump\_whoosh2
+Sonido al saltar (salto bueno) trial\_jump\_whoosh3 Sonido al saltar
+(salto excelente) trial\_jump\_reach Sonido al saltar cuando se llega
+arriba del todo trial\_jump\_wobble Sonido de cuando se falla el salto
+y el personaje intenta no caerse trial\_jump\_slip Sonido de cuando
+se falla el salto y el personaje resbala del bambú trial\_jump\_fall
+Sonido de mientras el personaje cae trial\_jump\_thud Sonido de cuando
+el personaje se golpea contra el suelo tras la caída trial\_shuriken\_strawman\_descend
+Sonido de los muñecos de paja al caer de entre las ramas trial\_shuriken\_strawman\_move
+Sonido de los muñecos de paja al moverse a izquierda o derecha trial\_shuriken\_strawman\_ascend
+Sonido de los muñecos de paja al subir de nuevo a las ramas trial\_shuriken\_strawman\_hit
+Sonido de los muñecos de paja al recibir un golpe trial\_shuriken\_strawman\_destroyed
+Sonido de los muñecos de paja al ser destruídos trial\_shuriken\_throwing
+Sonido del shuriken al surcar el aire effect\_eye\_gleam Sonido de
+brillo en un ojo del personaje effect\_sweat\_drop Sonido de gota
+de sudor resbalando por la frente effect\_master\_hit Sonido del maestro
+al golpear a los protagonistas sho\_run\_charge Voz de Sho en el Trial
+Run. Preparádose para salir corriendo (¡Hmmm!) sho\_run\_start Trial
+Run. Voz al empezar a correr a toda velocidad. sho\_run\_win Trial
+Run. Voz de victoria (¡Hum!) sho\_run\_lose Trial Run. Voz de derrota
+(¡Ie!) sho\_cut\_cut Trial Cut. Voz de cuando hace un corte (¡Ha!)
+sho\_cut\_win Trial Cut. Voz de victoria (¡Hum!) sho\_cut\_lose Trial
+Cut. Voz de derrota (¡Ie!) sho\_jump\_charge Trial Jump. Voz de Sho
+preparándose para el primer salto sho\_jump\_hop Trial Jump. Voz de
+salto potente. sho\_jump\_fall Trial Jump. Grito cuando se cae desde
+bastante alto sho\_jump\_win Trial Jump. Frase de victoria (¡Oh!)
+sho\_jump\_lose Trial Jump. Frase de derrota (¡Itai!) sho\_shuriken\_throw
+Trial Shuriken. Voz de cuando lanza un shuriken (¡Ha!). Se escucha
+de forma aleatoria, no siempre que se lance un shuriken sho\_shuriken\_win
+Trial Shuriken. Frase de victoria (¡Yosh!) sho\_shuriken\_lose Trial
+Shuriken. Frase de derrota (¡Argh!) sho\_menu\_game\_over Voz cuando
+se pasa de la pantalla de “continue” a la de “game over” (Argh) sho\_menu\_continue
+Voz cuando se continua (¡Ha!) ryoko\_run\_charge Voz de Ryoko en el
+Trial Run. Preparádose para salir corriendo (¡Hmmm!) ryoko\_run\_start
+Trial Run. Voz al empezar a correr a toda velocidad. ryoko\_run\_win
+Trial Run. Voz de victoria (¡Hum!) ryoko\_run\_lose Trial Run. Voz
+de derrota (¡Ie!) ryoko\_cut\_cut Trial Cut. Voz de cuando hace un
+corte (¡Ha!) ryoko\_cut\_win Trial Cut. Voz de victoria (¡Hum!) ryoko\_cut\_lose
+Trial Cut. Voz de derrota (¡Ie!) ryoko\_jump\_charge Trial Jump. Voz
+de ryoko preparándose para el primer salto ryoko\_jump\_hop Trial
+Jump. Voz de salto potente. ryoko\_jump\_fall Trial Jump. Grito cuando
+se cae desde bastante alto ryoko\_jump\_win Trial Jump. Frase de victoria
+(¡Hah!) ryoko\_jump\_lose Trial Jump. Frase de derrota (¡Itai!) ryoko\_shuriken\_throw
+Trial Shuriken. Voz de cuando lanza un shuriken (¡Ha!). Se escucha
+de forma aleatoria, no siempre que se lance un shuriken ryoko\_shuriken\_win
+Trial Shuriken. Frase de victoria (¡Yatta!) ryoko\_shuriken\_lose
+Trial Shuriken. Frase de derrota (¡Argh!) ryoko\_menu\_game\_over
+Voz cuando se pasa de la pantalla de “continue” a la de “game over”
+(Argh) ryoko\_menu\_continue Voz cuando se continua (¡Ha!)
+
+¡Aviso! Las frases y voces de Ryoko y Sho están aún por definir. Se
+han puesto ejemplos como placeholders, pero las definitivas se decidirán
+una vez que se tenga elaborada la historia y se consulte con un traductor
+de japonés.
+
+
+\section{Gráficos}
+
+Estarán en el subdirectorio \textquotedbl{}assets/gfx\textquotedbl{},
+y las extensiones serán \textquotedbl{}png\textquotedbl{}, \textquotedbl{}jpg\textquotedbl{}
+y \textquotedbl{}svg\textquotedbl{}. En su interior a su vez habrá
+varios subdirectorios específicos.
+
+Subdirectorio Descripción
+
+En raiz ( assets/gfx/ ) se incluiran las imágenes no recogidas en
+los otros subdirectorios, como las de los “character profile” y del
+“how to play”. splash Contendrá los logos que aparecerán al arrancar
+el juego. intro\_1 Contendrá los gráficos de la pantalla de presentación
+que se muestra tras el “splash” (salvo los relativos a los trials).
+intro\_2 Gráficos de la intro que se muestra tras elegir personaje
+y dificultad. menus Gráficos de los menús: “Principal”, “logros”,
+“mapa”, “opciones”, “pausa” y “selección de personaje y dificultad”.
+hud Gráficos para los HUDs de los trials. trial\_cut Gráficos para
+la prueba de corte. trial\_jump Gráficos para la prueba de salto.
+trial\_run Gráficos para la prueba de correr. trial\_shuriken Gráficos
+para la prueba de lanzar shurikens. results Gráficos de las pantallas
+de “victoria”, “derrota (continue)”, “records” y “game over”. endings
+Gráficos de los diferentes endings y de la pantalla de créditos.
+
+Independientemente de que estén distribuidos en subdirectorios, cada
+archivo tendrá un nombre que identifique su lugar de procedencia,
+por si en un futuro se deciden reubicar al directorio raiz. Ejemplos:
+menu\_achievement\_success\_stamp.png menu\_achievement\_icons\_big.png
+menu\_achievement\_icons\_small.png
+
+
+\section{Texto}
+
+Todo el texto que se muestre en el juego se encontrará en los archivos
+string.xml designados para ello tal y como se indica en página de
+Android Developer. http://developer.android.com/guide/topics/resources/string-resource.html
+
+El texto deberá estar disponible como mínimo en dos idiomas, inglés
+y español, aunque se intentará que esté disponible en cuantos más
+idiomas mejor. La disposición de los archivos string.xml será la siguiente:
+
+Proyecto/ res/ values/ strings.xml values-es/ strings.xml
+
+Se añadirá una carpeta y archivo string.xml por cada idioma extra.
+Por ejemplo si quisiéramos añadir el francés, crearíamos en el proyecto
+la carpeta res/values-fr, y dentro de ella el archivo strings.xml,
+tal y como se indica a continuación:
+
+values-fr/ strings.xml Justo como se describe en: http://developer.android.com/training/basics/supporting-devices/languages.html
+
+Para facilitar las labor de los traductores, las cadenas que lo requieran
+deben proveer contexto suficiente mediante un comentario, que se situará
+delante de la(s) cadena(s) en cuestión. Por ejemplo:
+
+<!-- Main menu buttons --> <string name=\textquotedbl{}start\_button\textquotedbl{}>Start!</string>
+<string name=\textquotedbl{}menu\_button\textquotedbl{}>Menu</string>
+<string name=\textquotedbl{}options\_button\textquotedbl{}>Options</string>
+
+Todo ello tal y como se describe en: http://developer.android.com/distribute/googleplay/publish/localizing.html\#strings
+
+Se han probado diferentes aplicaciones para una mayor comodidad en
+la traducción de los archivos strings.xml El programa que se propone
+para efectuar las traducciones, por su funcionalidad y sencillez de
+uso, es el TM-Database: http://yehongmei.narod.ru/
+
+La versión 1.82 http://yehongmei.narod.ru/TM-182.htm funciona correctamente
+bajo Windows 7 tras aplicar un parche que corrige un problema que
+hace que el programa se cierre al poco tiempo de iniciar. A continuación
+dos enlaces (autorizados por los creadores) con dicho parche: Mediafire
+- Mega 
+
+
+\section{Calendario}
+
+A concretar.
+\end{document}
